@@ -1,4 +1,6 @@
-# DallEImageGenerator
+# DallE Image Generator
+A simple website built on HTML,CSS,Javascript alongwith Flask and Python.
+The images are generated using the Dall-E Image generation model by OpenAI
 
 ## My Site:[click here](dalleimggen.rishi041.repl.co).
 
