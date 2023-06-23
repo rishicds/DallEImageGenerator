@@ -1,6 +1,6 @@
 # DallEImageGenerator
 
-##My Site:[click here](dalleimggen.rishi041.repl.co).
+## My Site:[click here](dalleimggen.rishi041.repl.co).
 
 ## How to Use
 1.Generate your *Open AI API key* from [here](https://platform.openai.com/account/api-keys).
