@@ -1,13 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Open AI Project by Rishi</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <style>
+      /* Define dark mode styles */
+      body.dark-mode {
+        background-color: #333;
+        color: #fff;
+      }
+
+      /* Define dark mode text color */
+      body.dark-mode .theme-text {
+        color: #fff;
+      }
+
+      /* Define separate toggle style */
+      .toggle-dark-mode {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+      }
+    </style>
   </head>
   <body>
-    <!-- Navigation bar -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">OpenAI Image Generator</a>
@@ -23,27 +42,41 @@
         </div>
       </div>
     </nav>
-    
-    <!-- Main content -->
     <div class="container">
       <h1 class="my-4">Generate your dreams!</h1>
       <form>
         <div class="mb-3">
-          <label for="imgprompt" class="form-label">Enter your prompt to generate image. eg:Cat playing a guitar</label>
+          <label for="imgprompt" class="form-label">Enter your prompt to generate an image. e.g., Cat playing a guitar</label>
           <input id="imgprompt" type="text" class="form-control" aria-describedby="emailHelp">
-          <div class="form-text">We'll fetch the image from OpenAI.</div>
         </div>
         <button id="submitbtn" type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
-    
-    <!-- Loading animation -->
-    <div class="container">
+    <div class="container"> /*Loading animation*/
       <svg id="LoadingGif" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto;background:#fff;display:none;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-        <!-- Animation elements -->
-      </svg>
-      
-      <!-- Image container -->
+<g>
+  <circle cx="60" cy="50" r="4" fill="#e15b64">
+    <animate attributeName="cx" repeatCount="indefinite" dur="1s" values="95;35" keyTimes="0;1" begin="-0.67s"></animate>
+    <animate attributeName="fill-opacity" repeatCount="indefinite" dur="1s" values="0;1;1" keyTimes="0;0.2;1" begin="-0.67s"></animate>
+  </circle>
+  <circle cx="60" cy="50" r="4" fill="#e15b64">
+    <animate attributeName="cx" repeatCount="indefinite" dur="1s" values="95;35" keyTimes="0;1" begin="-0.33s"></animate>
+    <animate attributeName="fill-opacity" repeatCount="indefinite" dur="1s" values="0;1;1" keyTimes="0;0.2;1" begin="-0.33s"></animate>
+  </circle>
+  <circle cx="60" cy="50" r="4" fill="#e15b64">
+    <animate attributeName="cx" repeatCount="indefinite" dur="1s" values="95;35" keyTimes="0;1" begin="0s"></animate>
+    <animate attributeName="fill-opacity" repeatCount="indefinite" dur="1s" values="0;1;1" keyTimes="0;0.2;1" begin="0s"></animate>
+  </circle>
+</g><g transform="translate(-15 0)">
+  <path d="M50 50L20 50A30 30 0 0 0 80 50Z" fill="#f8b26a" transform="rotate(90 50 50)"></path>
+  <path d="M50 50L20 50A30 30 0 0 0 80 50Z" fill="#f8b26a">
+    <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;45 50 50;0 50 50" keyTimes="0;0.5;1"></animateTransform>
+  </path>
+  <path d="M50 50L20 50A30 30 0 0 1 80 50Z" fill="#f8b26a">
+    <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;-45 50 50;0 50 50" keyTimes="0;0.5;1"></animateTransform>
+  </path>
+</g>
+</svg>
       <div class="row imageCont">
         <div class="col-md-4 my-2">
           <img width="340" src="https://www.cnet.com/a/img/resize/bc6455a3395e453d270baf60642a32a97b40bf6a/hub/2022/09/28/905de384-f115-42ed-9e8a-07746675658b/dall-e-parachuting-elephant.jpg?auto=webp&fit=crop&height=1200&width=1200" class="img-responsive">
@@ -56,43 +89,61 @@
         </div>
       </div>
     </div>
-    
-    <!-- Donation and footer section -->
     <div class="container text-center py-4">
-      <p>Open AI API costs money. To keep using the website consider donating via Paypal @parthanux</p>
+      <p>Open AI API costs money. To keep using the website, consider donating via Paypal @parthanux</p>
     </div>
-    
+    <div class="toggle-dark-mode">
+      <label class="form-check-label theme-text me-2" for="darkModeToggle">Dark Mode</label>
+      <input class="form-check-input" type="checkbox" id="darkModeToggle">
+    </div>
     <footer class="container text-center py-4">
       <p>&copy; 2023 Rishi. All rights reserved.</p>
     </footer>
-    
-    <!-- JavaScript code -->
+
     <script>
       const submitbtn = document.getElementById("submitbtn");
       const loadingGif = document.getElementById("LoadingGif");
       const imageContainer = document.querySelector(".imageCont");
-  
+
       submitbtn.addEventListener("click", (e) => {
         loadingGif.style.display = "block";
         imageContainer.style.display = "none"; // Hide the image container
         e.preventDefault();
         const promptTXT = document.getElementById("imgprompt").value;
         fetch("/generateimages/" + promptTXT)
-          .then((response) => response.json())
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Network response was not successful.");
+            }
+          })
           .then((data) => {
             loadingGif.style.display = "none";
             console.log(data);
             const images = data.data;
             let totalHTML = "";
-  
+
             images.forEach((image) => {
               let html = `<div class="col-md-4 my-2"><img width="340" src="${image.url}" class="img-responsive"></div>`;
               totalHTML += html;
             });
             imageContainer.innerHTML = totalHTML;
             imageContainer.style.display = "flex"; // Show the image container again
+          })
+          .catch((error) => {
+            console.error(error);
+            // Handle error display or any necessary actions
           });
       });
+
+      const darkModeToggle = document.getElementById("darkModeToggle");
+      const body = document.body;
+
+      darkModeToggle.addEventListener("change", () => {
+        body.classList.toggle("dark-mode");
+      });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-rZPcy2gFJF47qU4i+MbpwB6vyy1bLHhpgOTuaklq6juokzKkExZufC4xq3ZY0R17" crossorigin="anonymous"></script>
   </body>
 </html>
